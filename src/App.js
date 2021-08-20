@@ -24,10 +24,8 @@ class RandomChar extends React.Component {
     var posX = Math.floor(Math.random() * (this.props.maxX + 1));
     var posY = Math.floor(Math.random() * (this.props.maxY + 1));
 
-    const styling = "bottom: " + String(posX) + ";left: " + String(posY);
-
     return (
-      <p style={styling}>{this.props.text}</p>
+      <p style={{ bottom: String(posX), left: String(posY) }}>{this.props.text}</p>
     );
   }
 }
@@ -35,18 +33,16 @@ class RandomChar extends React.Component {
 // Generates all the flying characters
 class FlyingChars extends React.Component {
   render () {
-    const tab = [
-      "a", "z", "e", "r", "t", "t", "y", "u", "i", "o",
-      "p", "q", "s", "d", "f", "g", "h", "j", "k", "l",
-      "m", "w", "x", "c", "v", "b", "n"
-    ];
+    const tab = ['a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'q', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'w', 'x', 'c', 'v', 'b', 'n'];
 
     return (
+      <ul className="no-bullets">
       {
-        tab.map((char) => (
-          <RandomChar text={char}></RandomChar>
+        tab.map((ch) => ( 
+          <li><RandomChar text={ch}></RandomChar></li>
         ))
       }
+      </ul>
     );
   }
 }

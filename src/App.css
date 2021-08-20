@@ -1,38 +1,63 @@
+/* BODY START */
+
+/* Makes a flex component that will place every other component on the page
+they will be placed on a column  */
 .bodyFlex {
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
 }
 
+/* HEADER START */
+/* The proportion of the header on the page is one out of ten */
 header {
   flex: 1;
 }
 
+/* Makes another flex component inside the column, the components in it will be placed rowly */
 .headerFlex {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
 }
 
+/* The title takes one out of twenty of the header, and there is little marge from the left edge */
 .title {
   flex: 1;
   margin-left: 15px;
 }
 
+/* Just a div in order for flexbox to place the title correctly */
 .headerBuf {
   flex: 20;
 }
+/* HEADER END */
 
+/* CENTRAL PANEL START */
+/* The central panel (the flying characters and the text) takes the rest of the window */
 CentralPanel {
   flex: 10
 }
 
+/* FLYING CHARACTERS START */
+/* Now inside the central panel, we create a grid in order to correctly place the text
+It will be centered inside the panel, within the third of five evenly spaced columns */
 .gridPanel {
   display: grid;
   grid-template-columns: auto auto auto auto auto;
   justify-content: space-evenly;
 }
 
+ul.no-bullets {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+/* FLYING CHARACTERS END */
+
+/* The text is written on the third column */
 .welcomeText {
   grid-column: 3;
 }
+/* CENTRAL PANEL END */
+/* BODY END */
