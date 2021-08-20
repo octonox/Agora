@@ -2,6 +2,23 @@ import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 
+// Rrepesents the header with Agora written in it
+class Header extends React.Component {
+  render () {
+    return (
+      <header>
+        <div className="headerFlex">
+          <div className="title">
+            <h2><span>Agora</span></h2>
+          </div>
+          <div className="headerBuf"></div>
+        </div>
+      </header>
+    );
+  }
+}
+
+// Represents a random character that will move on its own
 class RandomChar extends React.Component {
   render () {
     var posX = Math.floor(Math.random() * (this.props.maxX + 1));
@@ -15,6 +32,7 @@ class RandomChar extends React.Component {
   }
 }
 
+// Generates all the flying characters
 class FlyingChars extends React.Component {
   render () {
     const tab = [
@@ -33,21 +51,7 @@ class FlyingChars extends React.Component {
   }
 }
 
-class Header extends React.Component {
-  render () {
-    return (
-      <header>
-        <div className="headerFlex">
-          <div className="title">
-            <h2><span>Agora</span></h2>
-          </div>
-          <div className="headerBuf"></div>
-        </div>
-      </header>
-    );
-  }
-}
-
+// Represents the central panel, with the characters and the text written in it
 class CentralPanel extends React.Component {
   render () {
     return (
@@ -64,6 +68,7 @@ class CentralPanel extends React.Component {
   }
 }
 
+// The page we arrive in first
 class HomePage extends React.Component {
   render () {
     return (
@@ -75,6 +80,7 @@ class HomePage extends React.Component {
   }
 }
 
+// The application that loads the differents pages depending on its state
 class App extends React.Component {
   render () {
     return (
