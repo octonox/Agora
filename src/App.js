@@ -25,6 +25,10 @@ class PlaneVect {
   }
 }
 
+function calculateDirection() {
+  /* To be implemented */
+}
+
 // Represents the header with Agora written in it
 class Header extends React.Component {
   render () {
@@ -45,12 +49,11 @@ class Header extends React.Component {
 class RandomChar extends React.Component {
   constructor (props) {
     super(props);
-    const bufX = Math.floor(Math.random() * (this.props.maxX + 1));
-    const bufY = Math.floor(Math.random() * (this.props.maxY + 1));
-    this.state =  { // The state variables represent the position of the character in the window
-      posX: bufX,
-      posY: bufY,
-      lastDirection: Math.atan(bufY/bufX) // Useful for the calculation of the movement
+    /* The states variables will be the acceleration, the velocity and the position of the character */
+    this.state =  {
+      acceleration = new PlaneVect(),
+      velocity = new PlaneVect(),
+      position = new PlaneVect()
     };
   }
 
@@ -71,17 +74,10 @@ class RandomChar extends React.Component {
     const toAddX = hypothenus * Math.cos(direction);
     const toAddY = hypothenus * Math.sin(direction); */
 
-    /* Sinon */
-    /* En fait, une lettre a une chance sur dix de rester dans une direction à peu près analogue à 
-    la précédente */
-    if (Math.random() < 0.2) {
-      var 
-    }
-
-    this.setState({
-      posX: this.state.posX + toAddX,
-      posY: this.state.posY + toAddY
-    });
+    /* What we want is that the char has an acceleration, and an initial velocity and position,
+    and each time move() is called, the char has a chance to undergo a new force, and hence a new acceleration,
+    which means its velocity will change, depending on the laws of kinematics. It is like programming a particle
+    that flies in a magnetic field */
   }
 
   componentWillUnmount () {
