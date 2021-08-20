@@ -20,12 +20,36 @@ class Header extends React.Component {
 
 // Represents a random character that will move on its own
 class RandomChar extends React.Component {
-  render () {
-    var posX = Math.floor(Math.random() * (this.props.maxX + 1));
-    var posY = Math.floor(Math.random() * (this.props.maxY + 1));
+  constructor (props) {
+    super(props);
+    this.state =  { // The state variables represent the position of the character in the window
+      posX: Math.floor(Math.random() * (this.props.maxX + 1)),
+      posY: Math.floor(Math.random() * (this.props.maxY + 1))
+    };
+  }
 
+  // Each 1 seconds, the function move() will be called
+  componentDidMount () {
+    this.timerID = setInterval(
+      () => this.move(), 1000
+    );
+  }
+
+  // When it is called, move() changes the position of the character
+  move () {
+    this.setState({
+        posX: Math.floor(Math.random() * (this.props.maxX + 1)),
+        posY: Math.floor(Math.random() * (this.props.maxY + 1))
+      });
+  }
+
+  componentWillUnmount () {
+    clearInterval(this.timerID);
+  }
+
+  render () {
     return (
-      <p style={{ bottom: String(posX), left: String(posY) }}>{this.props.text}</p>
+      <li style={{bottom: this.state.posX, left: this.state.posY}}>{this.props.text}</li>
     );
   }
 }
@@ -39,9 +63,10 @@ class FlyingChars extends React.Component {
       <ul className="no-bullets">
       {
         tab.map((ch) => ( 
-          <li><RandomChar text={ch}></RandomChar></li>
+          <RandomChar text={ch} maxX={200} maxY={200}></RandomChar>
         ))
       }
+      <li style={{ bottom: 3, left: 108 }}>Fuck I hope it works</li>
       </ul>
     );
   }
@@ -51,13 +76,15 @@ class FlyingChars extends React.Component {
 class CentralPanel extends React.Component {
   render () {
     return (
-      <div className="gridPanel">
+      <div>
         <FlyingChars nb="200"></FlyingChars>
-        <div className="welcomeText">
-          <p>The power of</p>
-          <p><span>Words</span></p>
-          <p><span>Thinking</span></p>
-          <p><span>Facts</span></p>
+        <div className="gridPanel">
+          <div className="welcomeText">
+            <p>The power of</p>
+            <p><span>Words</span></p>
+            <p><span>Thinking</span></p>
+            <p><span>Facts</span></p>
+          </div>
         </div>
       </div>
     );

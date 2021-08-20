@@ -53,6 +53,10 @@ ul.no-bullets {
   padding: 0;
   margin: 0;
 }
+
+li {
+  position: absolute;
+}
 /* FLYING CHARACTERS END */
 
 /* The text is written on the third column */
