@@ -2,7 +2,30 @@ import logo from './logo.svg';
 import './App.css';
 import React from 'react';
 
-// Rrepesents the header with Agora written in it
+class PlaneVect {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+
+  x() {
+    return this.x;
+  }
+
+  y() {
+    return this.x;
+  }
+
+  setx(newx) {
+    this.x = newx;
+  }
+
+  sety(newy) {
+    this.y = newy;
+  }
+}
+
+// Represents the header with Agora written in it
 class Header extends React.Component {
   render () {
     return (
@@ -49,36 +72,11 @@ class RandomChar extends React.Component {
     const toAddY = hypothenus * Math.sin(direction); */
 
     /* Sinon */
-    /* En fait, une lettre a une chance sur deux de rester dans une direction à peu près analogue à 
+    /* En fait, une lettre a une chance sur dix de rester dans une direction à peu près analogue à 
     la précédente */
-    if (this.state.lastDirection < Math.PI/2) {
-      if (Math.random() < 0.5) {
-        var direction = Math.random() * Math.PI / 2;
-      } else {
-        var direction = Math.random() * 2 * Math.PI;
-      }
-    } else if (this.state.lastDirection < Math.PI) {
-      if (Math.random() < 0.5) {
-        var direction = (Math.random() * Math.PI) + Math.PI/2;
-      } else {
-        var direction = Math.random() * 2 * Math.PI;
-      }
-    } else if (this.state.lastDirection < 3 * Math.pi / 2) {
-      if (Math.random() < 0.5) {
-        var direction = (Math.random() * Math.PI * 3 / 2) + Math.PI;
-      } else {
-        var direction = Math.random() * 2 * Math.PI;
-      }
-    } else {
-      if (Math.random() < 0.5) {
-        var direction = (Math.random() * 2*Math.PI) + Math.PI * 3/2; 
-      } else {
-        var direction = Math.random() * 2 * Math.PI;
-      }
+    if (Math.random() < 0.2) {
+      var 
     }
-    const hypothenus = Math.random() * 5;
-    const toAddX = hypothenus * Math.cos(direction);
-    const toAddY = hypothenus * Math.sin(direction);
 
     this.setState({
       posX: this.state.posX + toAddX,
