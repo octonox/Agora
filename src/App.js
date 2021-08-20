@@ -22,25 +22,68 @@ class Header extends React.Component {
 class RandomChar extends React.Component {
   constructor (props) {
     super(props);
+    const bufX = Math.floor(Math.random() * (this.props.maxX + 1));
+    const bufY = Math.floor(Math.random() * (this.props.maxY + 1));
     this.state =  { // The state variables represent the position of the character in the window
-      posX: Math.floor(Math.random() * (this.props.maxX + 1)),
-      posY: Math.floor(Math.random() * (this.props.maxY + 1))
+      posX: bufX,
+      posY: bufY,
+      lastDirection: Math.atan(bufY/bufX) // Useful for the calculation of the movement
     };
   }
 
-  // Each 1 seconds, the function move() will be called
+  // Each 0.01 miliseconds, the function move() will be called
   componentDidMount () {
     this.timerID = setInterval(
-      () => this.move(), 1000
+      () => this.move(), 0.1
     );
   }
 
   // When it is called, move() changes the position of the character
+  // We generate a number between 0 and 2pi, which is the direction of the letter, and then another number, the speed
+  // By using trigonometry, we find the numbers to add to the positions
   move () {
+    /* Si on veut qu'ils grelottent ce code est pas mal 
+    const direction = Math.random() * 2 * Math.PI;
+    const hypothenus = Math.random() * 10;
+    const toAddX = hypothenus * Math.cos(direction);
+    const toAddY = hypothenus * Math.sin(direction); */
+
+    /* Sinon */
+    /* En fait, une lettre a une chance sur deux de rester dans une direction à peu près analogue à 
+    la précédente */
+    if (this.state.lastDirection < Math.PI/2) {
+      if (Math.random() < 0.5) {
+        var direction = Math.random() * Math.PI / 2;
+      } else {
+        var direction = Math.random() * 2 * Math.PI;
+      }
+    } else if (this.state.lastDirection < Math.PI) {
+      if (Math.random() < 0.5) {
+        var direction = (Math.random() * Math.PI) + Math.PI/2;
+      } else {
+        var direction = Math.random() * 2 * Math.PI;
+      }
+    } else if (this.state.lastDirection < 3 * Math.pi / 2) {
+      if (Math.random() < 0.5) {
+        var direction = (Math.random() * Math.PI * 3 / 2) + Math.PI;
+      } else {
+        var direction = Math.random() * 2 * Math.PI;
+      }
+    } else {
+      if (Math.random() < 0.5) {
+        var direction = (Math.random() * 2*Math.PI) + Math.PI * 3/2; 
+      } else {
+        var direction = Math.random() * 2 * Math.PI;
+      }
+    }
+    const hypothenus = Math.random() * 5;
+    const toAddX = hypothenus * Math.cos(direction);
+    const toAddY = hypothenus * Math.sin(direction);
+
     this.setState({
-        posX: Math.floor(Math.random() * (this.props.maxX + 1)),
-        posY: Math.floor(Math.random() * (this.props.maxY + 1))
-      });
+      posX: this.state.posX + toAddX,
+      posY: this.state.posY + toAddY
+    });
   }
 
   componentWillUnmount () {
@@ -63,10 +106,9 @@ class FlyingChars extends React.Component {
       <ul className="no-bullets">
       {
         tab.map((ch) => ( 
-          <RandomChar text={ch} maxX={200} maxY={200}></RandomChar>
+          <RandomChar text={ch} maxX={1400} maxY={1000}></RandomChar> // TO CHANGE THE SQUARE IN WHICH THEY CAN MOVE
         ))
       }
-      <li style={{ bottom: 3, left: 108 }}>Fuck I hope it works</li>
       </ul>
     );
   }
