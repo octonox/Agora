@@ -4,57 +4,25 @@ import React from 'react';
 import { getDefaultNormalizer } from '@testing-library/react';
 
 class PlaneVect {
-  constructor(constant, otherVect) {
-    this.x = constant * otherVect.x();
-    this.y = constant * otherVect.y();
-  }
-
   constructor(x, y) {
     this.x = x;
     this.y = y;
   }
 
-  x() {
-    return this.x;
-  }
-
-  y() {
-    return this.x;
-  }
-
-  setx(newx) {
-    this.x = newx;
-  }
-
-  sety(newy) {
-    this.y = newy;
+  fromOtherVect(constant, otherVect) {
+    this.x = constant * otherVect.x;
+    this.y = constant * otherVect.y;
   }
 }
 
 /* Returns the subtraction of the two vectors */
 function subVect(vectA, vectB) {
-  return new PlaneVect(vectA.x() - vectB.x(), vectA.y() - vectB.y())
+  return new PlaneVect(vectA.x - vectB.x, vectA.y - vectB.y)
 }
 
 /* Returns the distance between two points A and B */
 function norme(pointA, pointB) {
-  return Math.sqrt((pointA.x() - pointB().x())^2 + (pointA.y() - pointA.x())^2)
-}
-
-/* Returns the direction of the vector between A and B (its angle with the x-axis) */
-/* A and B must be PlaneVect's */
-function calculateDirection(pointA, pointB) {
-  VectAB = subVect(pointB, pointA);
-
-  if (VectAB.x() >= 0 && VectAB.y() >= 0) {
-    return Math.atan(VectAB.y()/VectAB.x())
-  } else if (VectAB.x() < 0 && VectAB.y() >= 0) {
-    return Math.PI - Math.atan(VectAB.y()/VectAB.x())
-  } else if (VectAB.x() < à && VectAB.y() < 0) {
-    return Math.PI + Math.atan(VectAB.y()/VectAB.x())
-  } else {
-    return 2 * Math.PI - Math.atan(VectAB.y()/VectAB.x())
-  }
+  return Math.sqrt((pointA.x - pointB().x)^2 + (pointA.y - pointA.x)^2)
 }
 
 // Represents the header with Agora written in it
@@ -78,19 +46,13 @@ class FieldPoint {
     this.mass = Math.random() * maxMass;
     this.position = new PlaneVect(Math.random() * maxX, Math.random() * maxY);
   }
-
-  mass() {
-    return this.mass
-  }
-
-  position() {
-    return this.position
-  }
 }
 
 /* Returns the force vector between A and B */
 function NewtonLaw(G, mass, A, B) {
-  return PlaneVect(G * mass^2 / norme(A, B)^3, subVect(B, A))
+  var vect = new PlaneVect(0, 0);
+  vect.fromOtherVect(G * mass^2 / norme(A, B)^3, subVect(B, A));
+  return vect
 }
 
 // Represents a random character that will move on its own
@@ -112,10 +74,10 @@ class RandomChar extends React.Component {
           G is chosen by us as a property, it is by changing its value that we'll change the ways characters move */
 
     this.state =  {
-      fieldPoint = bufFieldPoint,
-      acceleration = NewtonLaw(this.props.G, bufFieldPoint.mass(), bufPosition, bufFieldPoint.position()),
-      velocity = new PlaneVect(Math.random() * this.props.velx, Math.random() * this.props.vely),
-      position = bufPosition
+      fieldPoint: bufFieldPoint,
+      acceleration: NewtonLaw(this.props.G, bufFieldPoint.mass, bufPosition, bufFieldPoint.position),
+      velocity: new PlaneVect(Math.random() * this.props.velx, Math.random() * this.props.vely),
+      position: bufPosition
     };
   }
 
@@ -144,7 +106,7 @@ class RandomChar extends React.Component {
     // First is decided whether a new FieldPoint is applied or not 
     if (Math.random() <= 0.1) {
       // In this case we create a new field point and calculate the new acceleration
-      newFieldPoint = new FieldPoint(this.props.maxMass, this.props.maxX, this.props.maxY);
+      const newFieldPoint = new FieldPoint(this.props.maxMass, this.props.maxX, this.props.maxY);
 
       // We change the value of the state variable acceleration
       this.setState({
@@ -156,9 +118,9 @@ class RandomChar extends React.Component {
     // If there was a new field point created, the character will undergo a new acceleration, which will change its velocity and position
     // Now, the character must be moved
     // The speed changes the position, and the acceleration changes the speed. Finally, the new position changes the acceleration, because the vector between the point and the field point is not the same
-    const newPosition = new PlaneVect(this.state.position.x() + this.state.velocity.x(), this.state.position.y() + this.state.velocity.y());
-    const newVelocity = new PlaneVect(this.state.velocity.x() + this.state.acceleration.x(), this.state.velocity.y() + this.state.acceleration.y());
-    const newAcceleration = NewtonLaw(this.props.G, this.state.fieldPoint.mass(), newPosition, this.state.fieldPoint);
+    const newPosition = new PlaneVect(this.state.position.x + this.state.velocity.x, this.state.position.y + this.state.velocity.y);
+    const newVelocity = new PlaneVect(this.state.velocity.x + this.state.acceleration.x, this.state.velocity.y + this.state.acceleration.y);
+    const newAcceleration = NewtonLaw(this.props.G, this.state.fieldPoint.mass, newPosition, this.state.fieldPoint);
 
     this.setState({
       position: newPosition,
@@ -187,7 +149,7 @@ class FlyingChars extends React.Component {
       <ul className="no-bullets">
       {
         tab.map((ch) => ( 
-          <RandomChar text={ch} maxMass={} maxX={1400} maxY={1000} velx={} vely={} G={}></RandomChar> // TO CHANGE THE SQUARE IN WHICH THEY CAN MOVE
+          <RandomChar text={ch} maxMass={30} maxX={1400} maxY={1000} velx={3} vely={3} G={10}></RandomChar> // TO CHANGE THE SQUARE IN WHICH THEY CAN MOVE
         ))
       }
       </ul>
