@@ -50,10 +50,11 @@ class RandomChar extends React.Component {
   constructor (props) {
     super(props);
     /* The states variables will be the acceleration, the velocity and the position of the character */
+    /* velx and vely are the maximum velocity possible, and accx accy the maximum acceleration */
     this.state =  {
-      acceleration = new PlaneVect(),
-      velocity = new PlaneVect(),
-      position = new PlaneVect()
+      acceleration = new PlaneVect(Math.random() * this.props.accx, Math.random * this.props.accy),
+      velocity = new PlaneVect(Math.random() * this.props.velx, Math.random() * this.props.vely),
+      position = new PlaneVect(Math.random() * (this.props.maxX + 1), Math.random() * (this.props.maxY + 1))
     };
   }
 
@@ -100,7 +101,7 @@ class FlyingChars extends React.Component {
       <ul className="no-bullets">
       {
         tab.map((ch) => ( 
-          <RandomChar text={ch} maxX={1400} maxY={1000}></RandomChar> // TO CHANGE THE SQUARE IN WHICH THEY CAN MOVE
+          <RandomChar text={ch} maxX={1400} maxY={1000}, velx={} vely={} accx={} accy={}></RandomChar> // TO CHANGE THE SQUARE IN WHICH THEY CAN MOVE
         ))
       }
       </ul>
