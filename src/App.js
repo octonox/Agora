@@ -22,7 +22,7 @@ function subVect(vectA, vectB) {
 
 /* Returns the distance between two points A and B */
 function norme(pointA, pointB) {
-  return Math.sqrt((pointA.x - pointB().x)^2 + (pointA.y - pointA.x)^2)
+  return Math.sqrt((pointA.x - pointB.x)^2 + (pointA.y - pointA.x)^2)
 }
 
 // Represents the header with Agora written in it
@@ -111,7 +111,7 @@ class RandomChar extends React.Component {
       // We change the value of the state variable acceleration
       this.setState({
         fieldPoint: newFieldPoint,
-        acceleration: NewtonLaw(this.props.G, newFieldPoint.mass(), this.state.position(), newFieldPoint.position())
+        acceleration: NewtonLaw(this.props.G, newFieldPoint.mass, this.state.position, newFieldPoint.position)
       });
     }
 
