@@ -3,12 +3,14 @@ import './App.css';
 import React from 'react';
 import { getDefaultNormalizer } from '@testing-library/react';
 
+/* A class representing a 2D Vector */
 class PlaneVect {
   constructor(x, y) {
     this.x = x;
     this.y = y;
   }
 
+  // So that we can make a vector the multiplication of another by a constant
   fromOtherVect(constant, otherVect) {
     this.x = constant * otherVect.x;
     this.y = constant * otherVect.y;
