@@ -25,8 +25,25 @@ class PlaneVect {
   }
 }
 
-function calculateDirection() {
-  /* To be implemented */
+/* Returns the subtraction of the two vectors */
+function subVect(vectA, vectB) {
+  return new PlaneVect(vectA.x() - vectB.x(), vectA.y() - vectB.y())
+}
+
+/* Returns the direction of the vector between A and B (its angle with the x-axis) */
+/* A and B must be PlaneVect's */
+function calculateDirection(pointA, pointB) {
+  VectAB = subVect(pointB, pointA);
+
+  if (VectAB.x() >= 0 && VectAB.y() >= 0) {
+    return Math.atan(VectAB.y()/VectAB.x())
+  } else if (VectAB.x() < 0 && VectAB.y() >= 0) {
+    return Math.PI - Math.atan(VectAB.y()/VectAB.x())
+  } else if (VectAB.x() < à && VectAB.y() < 0) {
+    return Math.PI + Math.atan(VectAB.y()/VectAB.x())
+  } else {
+    return 2 * Math.PI - Math.atan(VectAB.y()/VectAB.x())
+  }
 }
 
 // Represents the header with Agora written in it
@@ -50,9 +67,11 @@ class RandomChar extends React.Component {
   constructor (props) {
     super(props);
     /* The states variables will be the acceleration, the velocity and the position of the character */
-    /* velx and vely are the maximum velocity possible, and accx accy the maximum acceleration */
+    /* velx and vely are the maximum velocity possible */
+    /* Field point is the random point which is going to apply a force on the character, and thus an acceleration */
     this.state =  {
-      acceleration = new PlaneVect(Math.random() * this.props.accx, Math.random * this.props.accy),
+      fieldPoint = new PlaneVect(Math.random() * (this.props.maxX + 1), Math.random() * (this.props.maxY + 1))
+      ,
       velocity = new PlaneVect(Math.random() * this.props.velx, Math.random() * this.props.vely),
       position = new PlaneVect(Math.random() * (this.props.maxX + 1), Math.random() * (this.props.maxY + 1))
     };
@@ -101,7 +120,7 @@ class FlyingChars extends React.Component {
       <ul className="no-bullets">
       {
         tab.map((ch) => ( 
-          <RandomChar text={ch} maxX={1400} maxY={1000}, velx={} vely={} accx={} accy={}></RandomChar> // TO CHANGE THE SQUARE IN WHICH THEY CAN MOVE
+          <RandomChar text={ch} maxX={1400} maxY={1000} velx={} vely={}></RandomChar> // TO CHANGE THE SQUARE IN WHICH THEY CAN MOVE
         ))
       }
       </ul>
