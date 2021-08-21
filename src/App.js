@@ -86,7 +86,7 @@ class RandomChar extends React.Component {
   // Each 0.01 miliseconds, the function move() will be called
   componentDidMount () {
     this.timerID = setInterval(
-      () => this.move(), 0.1
+      () => this.move(), 1000
     );
   }
 
@@ -108,7 +108,9 @@ class RandomChar extends React.Component {
     // First is decided whether a new FieldPoint is applied or not 
     if (Math.random() <= 0.1) {
       // In this case we create a new field point and calculate the new acceleration
-      const newFieldPoint = new FieldPoint(this.props.maxMass, this.props.maxX, this.props.maxY);
+      do {
+        var newFieldPoint = new FieldPoint(this.props.maxMass, this.props.maxX, this.props.maxY);
+      } while (newFieldPoint.x == this.state.position.x && newFieldPoint.y == this.state.position.y)
 
       // We change the value of the state variable acceleration
       this.setState({
@@ -137,7 +139,7 @@ class RandomChar extends React.Component {
 
   render () {
     return (
-      <li style={{bottom: this.state.posX, left: this.state.posY}}>{this.props.text}</li>
+      <li style={{bottom: this.state.position.x, left: this.state.position.y}}>{this.props.text}</li>
     );
   }
 }
@@ -149,11 +151,7 @@ class FlyingChars extends React.Component {
 
     return (
       <ul className="no-bullets">
-      {
-        tab.map((ch) => ( 
-          <RandomChar text={ch} maxMass={30} maxX={1400} maxY={1000} velx={3} vely={3} G={10}></RandomChar> // TO CHANGE THE SQUARE IN WHICH THEY CAN MOVE
-        ))
-      }
+        <RandomChar text={"test"} maxMass={0.5} maxX={1400} maxY={1000} velx={0.5} vely={0.5} G={1}></RandomChar> 
       </ul>
     );
   }
